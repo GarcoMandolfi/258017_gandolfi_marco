@@ -61,9 +61,6 @@ class Dataset (data.Dataset):
             res.append[tmp]
         return res
 
-def connectToDevice():
-    DEVICE = 'cuda:0'
-
 def read_file(path, eos_token="<eos>"):
     output = []
     with open(path, "r") as f:
@@ -71,17 +68,17 @@ def read_file(path, eos_token="<eos>"):
             output.append(line.strip() + " " + eos_token)
     return output
 
-def retreiveData(path):     # "dataset/PennTreeBank/ptb.valid.txt"
-    train_raw = read_file(path)
-    dev_raw = read_file(path)
-    test_raw = read_file(path)
-    return (train_raw, dev_raw, test_raw)
+def retreiveData(train_path, dev_path, test_path):     # "dataset/PennTreeBank/ptb.valid.txt"
+    train_raw = read_file(train_path)
+    dev_raw = read_file(dev_path)
+    test_raw = read_file(test_path)
+    return train_raw, dev_raw, test_raw
 
 def getDatasets(train_raw, dev_raw, test_raw, vocab):
     train_dataset = Vocab(train_raw, vocab)
     dev_dataset = Vocab(dev_raw, vocab)
     test_dataset = Vocab(test_raw, vocab)
-    return (train_dataset, dev_dataset, test_dataset)
+    return train_dataset, dev_dataset, test_dataset
 
 def collate(data, pad_token):
 
@@ -112,4 +109,4 @@ def getDataLoaders(train_dataset, dev_dataset, test_dataset, vocab):
     train_loader = DataLoader(train_dataset, batch_size=64, collate_fn=partial(collate, pad_token=vocab.word2id["<pad>"]),  shuffle=True)
     dev_loader = DataLoader(dev_dataset, batch_size=128, collate_fn=partial(collate, pad_token=vocab.word2id["<pad>"]))
     test_loader = DataLoader(test_dataset, batch_size=128, collate_fn=partial(collate, pad_token=vocab.word2id["<pad>"]))
-    return (train_loader, dev_loader, test_loader)
+    return train_loader, dev_loader, test_loader
