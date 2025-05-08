@@ -112,3 +112,4 @@ def getDataLoaders(train_dataset, dev_dataset, test_dataset, vocab):
     train_loader = DataLoader(train_dataset, batch_size=64, collate_fn=partial(collate, pad_token=vocab.word2id["<pad>"]),  shuffle=True)
     dev_loader = DataLoader(dev_dataset, batch_size=128, collate_fn=partial(collate, pad_token=vocab.word2id["<pad>"]))
     test_loader = DataLoader(test_dataset, batch_size=128, collate_fn=partial(collate, pad_token=vocab.word2id["<pad>"]))
+    return (train_loader, dev_loader, test_loader)
