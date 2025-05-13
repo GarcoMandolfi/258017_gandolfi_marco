@@ -43,5 +43,7 @@ if __name__ == "__main__":
         optimizer = optim.SGD(model.parameters(), lr=settings.lr)
         train_criterion = nn.CrossEntropyLoss(ignore_index=vocab.word2id["<pad>"])
         eval_criterion = nn.CrossEntropyLoss(ignore_index=vocab.word2id["<pad>"], reduction='sum')
-        print("So far, so good...")
+        
+        best_model = train_model(model, train_loader, dev_loader, test_loader,
+                                 optimizer, train_criterion, eval_criterion)
     # Print the results

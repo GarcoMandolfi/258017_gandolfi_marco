@@ -13,3 +13,9 @@ def init():
 
     global clip_size
     clip_size = 5
+
+    global epochs_number
+    epochs_number = 100
+
+    global patience
+    patience = 3
